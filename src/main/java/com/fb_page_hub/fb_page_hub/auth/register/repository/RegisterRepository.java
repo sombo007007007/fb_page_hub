@@ -21,4 +21,7 @@ public interface RegisterRepository {
     // InsertProvider annotation specifies the provider class and method to build the SQL query for inserting a new user
     @InsertProvider (type = RegisterProvider.class, method = "BuildInsertRegisterQuery")
     void Create(@Param("registerModels") RegisterModels registerModels);
+    // edit user information
+    @SelectProvider (type = RegisterProvider.class, method = "BuildEditRegisterQuery")
+    RegisterModels getRegisterById(@Param("registerModels") Long id);
 }

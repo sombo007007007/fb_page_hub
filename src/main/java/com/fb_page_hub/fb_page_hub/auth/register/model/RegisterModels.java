@@ -18,6 +18,7 @@ public class RegisterModels {
     private String fullName;
     @NotBlank (message = "Role is required")
     private String role;
-    private Boolean status;
+    private String status;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

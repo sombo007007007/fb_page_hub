@@ -7,7 +7,7 @@ import com.fb_page_hub.fb_page_hub.auth.register.model.RegisterModels;
 
 public interface RegisterService {
     // List RegisterService methods here
-    List<String> getAllRegisteredUsers();
+    List<RegisterModels> getAllRegisteredUsers();
     
     // Add a new user to the database
     void AddUser(String username, 

@@ -22,6 +22,14 @@ public class RegisterProvider {
             VALUES("password_hash", "#{registerModels.passwordHash}");
             VALUES("full_name", "#{registerModels.fullName}");
             VALUES("role", "#{registerModels.role}");
+            VALUES("created_at", "#{registerModels.createdAt}");
+        }}.toString();
+    }
+    public String BuildEditRegisterQuery() {
+        return new SQL() {{
+            SELECT("*");
+            FROM("users");
+            WHERE("id = #{registerModels}");
         }}.toString();
     }
 }

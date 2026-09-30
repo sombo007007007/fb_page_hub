@@ -1,7 +1,9 @@
 package com.fb_page_hub.fb_page_hub.auth.register.service.serviceimpl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fb_page_hub.fb_page_hub.auth.register.model.RegisterModels;
@@ -14,13 +16,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor 
 public class RegisterServiceImpl implements RegisterService {
     private final RegisterRepository registerRepository;
+    private final PasswordEncoder passwordEncoder;
     // Implement the methods defined in RegisterService here
     @Override
-    public List<String> getAllRegisteredUsers() {
+    public List<RegisterModels> getAllRegisteredUsers() {
         // Implementation code here
-        return registerRepository.getAllRegisteredUsers().stream()
-                .map(RegisterModels::getUsername)
-                .toList();
+        return registerRepository.getAllRegisteredUsers();
     }
 
     @Override
@@ -29,20 +30,36 @@ public class RegisterServiceImpl implements RegisterService {
                         String passwordHash, 
                         String fullName, 
                         String role) {
-        // Implementation code here
-        RegisterModels registerModels = new RegisterModels();
+        try {
+
+            // Add the logic to create a new RegisterModels object and save it to the repository
+            RegisterModels registerModels = new RegisterModels();
+            registerModels.setUsername(username);
+            registerModels.setEmail(email);
+            registerModels.setPasswordHash(passwordEncoder.encode(passwordHash)); // Hash the password before saving
+            registerModels.setFullName(fullName);
+            registerModels.setRole(role);
+            registerModels.setCreatedAt(LocalDateTime.now()); // Set the created_at timestamp
+            registerRepository.Create(registerModels);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error creating RegisterModels object", e);
+        }
+
     }
 
     @Override
     public RegisterModels RegisterById(Long id) {
         // Implementation code here
-        return null;
+        return registerRepository.getRegisterById(id);
     }
 
     @Override
     public void UpdateUser(String username, 
                            String email, 
-                           String passwordHash, String fullName, String role) {
+                           String passwordHash, 
+                           String fullName, 
+                           String role) {
         // Implementation code here
     }
 
